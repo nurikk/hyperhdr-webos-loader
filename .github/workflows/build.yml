@@ -80,7 +80,6 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
             -DCMAKE_BUILD_TYPE=Release \
             -DPLATFORM=linux \
-            -DENABLE_SPIDEV=OFF \
             -DENABLE_V4L2=OFF \
             -DENABLE_X11=OFF \
             -DENABLE_PIPEWIRE=OFF \
