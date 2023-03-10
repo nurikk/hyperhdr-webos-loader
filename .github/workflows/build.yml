@@ -89,7 +89,7 @@ jobs:
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
             -DENABLE_FRAMEBUFFER=OFF
-          make
+          make -j $(nproc)
           popd
 
       - name: Copy built binaries to release/
