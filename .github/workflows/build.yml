@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  TOOLCHAIN_URL: https://github.com/openlgtv/buildroot-nc4/releases/download/webos-c592d84/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
+  TOOLCHAIN_URL: http://nurikk-storage.s3-website-eu-west-1.amazonaws.com/arm-webos-linux-gnueabi_sdk-buildroot-ftdi.tar.gz
   TOOLCHAIN_DIR: /opt/arm-webos-linux-gnueabi_sdk-buildroot
   TOOLCHAIN_ENV_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
   TOOLCHAIN_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake
@@ -26,8 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: awawa-dev/HyperHDR
-          ref: v20.0.0.0beta1
+          repository: nurikk/HyperHDR
+          ref: ftdi
           path: hyperhdr-repo
           submodules: recursive
           fetch-depth: 0
@@ -88,9 +88,14 @@ jobs:
             -DENABLE_SOUNDCAPLINUX=ON \
             -DENABLE_CEC=OFF \
             -DENABLE_PROTOBUF=OFF \
-            -DENABLE_FRAMEBUFFER=OFF
-          make
+            -DENABLE_FRAMEBUFFER=OFF \
+            -DENABLE_FTDIDEV=ON
+          make -j $(nproc)
           popd
+      - name: Snow ccache stats
+        env:
+          CCACHE_DIR: ${{ github.workspace }}/${{ env.CCACHE_CACHE_DIR }}
+        run: ccache -s
 
       - name: Copy built binaries to release/
         run: |
@@ -100,7 +105,7 @@ jobs:
 
       - name: Copy dependencies to release/
         env:
-          dependency_libs: libpng16.so.16 libjpeg.so.8 libcrypto.so.1.1 libz.so.1 libssl.so.1.1 libQt5Sql.so.5.15.2 libpcre2-16.so.0 libQt5Gui.so.5 libQt5Network.so.5 libQt5Widgets.so.5 libk5crypto.so.3 libatomic.so.1 libQt5Core.so.5 libkrb5support.so.0 libcom_err.so.3 libstdc++.so.6 libkrb5.so.3 libQt5Sql.so.5 libgssapi_krb5.so.2 libQt5SerialPort.so.5 libQt5Sql.so.5.15 libusb-1.0.so.0 libturbojpeg.so.0
+          dependency_libs: libpng16.so.16 libjpeg.so.8 libcrypto.so.1.1 libz.so.1 libssl.so.1.1 libQt5Sql.so.5.15.2 libpcre2-16.so.0 libQt5Gui.so.5 libQt5Network.so.5 libQt5Widgets.so.5 libk5crypto.so.3 libatomic.so.1 libQt5Core.so.5 libkrb5support.so.0 libcom_err.so.3 libstdc++.so.6 libkrb5.so.3 libQt5Sql.so.5 libgssapi_krb5.so.2 libQt5SerialPort.so.5 libQt5Sql.so.5.15 libusb-1.0.so.0 libturbojpeg.so.0 libftdi1.so.2
         run: |
           for i in ${{ env.dependency_libs }}; do find ${TOOLCHAIN_DIR}/arm-webos-linux-gnueabi/sysroot/ -name $i -exec cp {} ./release/ \;; done
           mkdir -p ./release/sqldrivers
