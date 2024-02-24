@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  TOOLCHAIN_URL: http://nurikk-storage.s3-website-eu-west-1.amazonaws.com/arm-webos-linux-gnueabi_sdk-buildroot-ftdi.tar.gz
+  TOOLCHAIN_URL: https://github.com/openlgtv/buildroot-nc4/releases/download/webos-c592d84/arm-webos-linux-gnueabi_sdk-buildroot.tar.gz
   TOOLCHAIN_DIR: /opt/arm-webos-linux-gnueabi_sdk-buildroot
   TOOLCHAIN_ENV_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/environment-setup
   TOOLCHAIN_FILE: /opt/arm-webos-linux-gnueabi_sdk-buildroot/share/buildroot/toolchainfile.cmake
@@ -92,10 +92,6 @@ jobs:
             -DENABLE_FTDIDEV=ON
           make -j $(nproc)
           popd
-      - name: Snow ccache stats
-        env:
-          CCACHE_DIR: ${{ github.workspace }}/${{ env.CCACHE_CACHE_DIR }}
-        run: ccache -s
 
       - name: Copy built binaries to release/
         run: |
