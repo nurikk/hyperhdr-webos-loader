@@ -132,9 +132,6 @@ jobs:
           name: hyperhdr-build
           path: hyperhdr-build
 
-      - name: Display structure of downloaded files
-        run: ls -R
-
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
