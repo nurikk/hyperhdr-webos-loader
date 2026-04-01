@@ -26,8 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          repository: awawa-dev/HyperHDR
-          ref: cf75abfb305c29b2c731e8e718e1439483468d3a
+          repository: nurikk/HyperHDR
+          ref: fix/ftdi-improvements
           path: hyperhdr-repo
           submodules: recursive
           fetch-depth: 0
