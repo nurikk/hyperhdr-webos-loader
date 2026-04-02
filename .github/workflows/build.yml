@@ -101,7 +101,7 @@ jobs:
 
       - name: Copy dependencies to release/
         env:
-          dependency_libs: libpng16.so.16 libjpeg.so.8 libz.so.1 libpcre2-16.so.0 libk5crypto.so.3 libatomic.so.1 libkrb5support.so.0 libcom_err.so.3 libstdc++.so.6 libkrb5.so.3 libgssapi_krb5.so.2 libusb-1.0.so.0 libturbojpeg.so.0 libftdi1.so.2 libQt6Core.so.6 libQt6Gui.so.6 libQt6Widgets.so.6 libQt6Network.so.6 libQt6Sql.so.6 libQt6Xml.so.6 libQt6SerialPort.so.6 libQt6PrintSupport.so.6 libfreetype.so.6 libdouble-conversion.so.3 libb2.so.1
+          dependency_libs: libpng16.so.16 libjpeg.so.8 libz.so.1 libpcre2-16.so.0 libk5crypto.so.3 libatomic.so.1 libkrb5support.so.0 libcom_err.so.3 libstdc++.so.6 libkrb5.so.3 libgssapi_krb5.so.2 libusb-1.0.so.0 libturbojpeg.so.0 libftdi1.so.2 libQt6Core.so.6 libQt6Gui.so.6 libQt6Widgets.so.6 libQt6Network.so.6 libQt6Sql.so.6 libQt6Xml.so.6 libQt6SerialPort.so.6 libQt6PrintSupport.so.6 libfreetype.so.6 libdouble-conversion.so.3 libb2.so.1 libicui18n.so.73 libicuuc.so.73 libicudata.so.73
         run: |
           for i in ${{ env.dependency_libs }}; do find ${TOOLCHAIN_DIR}/arm-webos-linux-gnueabi/sysroot/ -name $i -exec cp {} ./release/ \;; done
           mkdir -p ./release/sqldrivers
